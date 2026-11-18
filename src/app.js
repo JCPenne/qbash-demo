@@ -41,7 +41,12 @@ function open(id) {
   refreshSave();
 }
 
-editor.addEventListener("input", refreshSave);
+// Keep the open note in sync while typing, so the list preview updates live.
+editor.addEventListener("input", () => {
+  notes = updateNote(notes, currentId, editor.value);
+  renderList();
+  refreshSave();
+});
 
 saveBtn.addEventListener("click", () => {
   notes = updateNote(notes, currentId, editor.value);
