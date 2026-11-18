@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Notes</title>
+    <link rel="stylesheet" href="src/style.css" />
+  </head>
+  <body>
+    <div class="app">
+      <aside class="sidebar">
+        <div class="brand">Notes</div>
+        <ul id="list" class="list"></ul>
+      </aside>
+      <main class="editor">
+        <div class="toolbar">
+          <span id="status" class="status">Saved</span>
+          <button id="save" class="save" disabled>Save</button>
+        </div>
+        <textarea id="body" spellcheck="false"></textarea>
+      </main>
+    </div>
+    <script type="module" src="src/app.js"></script>
+  </body>
+</html>

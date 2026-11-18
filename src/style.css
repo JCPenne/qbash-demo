@@ -1,0 +1,18 @@
+:root { --bg: #f7f7f5; --panel: #fff; --line: #e4e4e0; --ink: #1d1d1b; --muted: #77776f; --accent: #2f6fdf; }
+* { box-sizing: border-box; }
+body { margin: 0; font: 16px/1.5 system-ui, sans-serif; color: var(--ink); background: var(--bg); }
+.app { display: grid; grid-template-columns: 280px 1fr; height: 100vh; }
+.sidebar { border-right: 1px solid var(--line); background: var(--panel); padding: 20px 12px; }
+.brand { font-weight: 700; font-size: 20px; padding: 0 10px 16px; }
+.list { list-style: none; margin: 0; padding: 0; }
+.list li { padding: 10px; border-radius: 8px; cursor: pointer; }
+.list li.active { background: #eaf0fc; }
+.list .t { font-weight: 600; }
+.list .p { color: var(--muted); font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.editor { display: flex; flex-direction: column; padding: 20px 28px; gap: 14px; }
+.toolbar { display: flex; justify-content: flex-end; align-items: center; gap: 14px; }
+.status { color: var(--muted); font-size: 14px; }
+.save { font: inherit; font-weight: 600; padding: 8px 22px; border-radius: 8px; border: 0; background: var(--accent); color: #fff; cursor: pointer; }
+.save:disabled { background: #c9c9c3; cursor: default; }
+textarea { flex: 1; font: 18px/1.6 ui-monospace, monospace; border: 1px solid var(--line); border-radius: 12px; padding: 20px; resize: none; background: var(--panel); color: var(--ink); }
+textarea:focus { outline: 2px solid #c6d6f7; }
