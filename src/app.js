@@ -1,58 +1,46 @@
-import { loadNotes, saveNotes, isDirty, updateNote, titleOf } from "./notes.js";
+import { loadTask, saveTask, isDirty, updateTask } from "./task.js";
 
-const list = document.getElementById("list");
-const editor = document.getElementById("body");
+const nameEl = document.getElementById("name");
+const descEl = document.getElementById("description");
 const saveBtn = document.getElementById("save");
 const status = document.getElementById("status");
 
-let notes = loadNotes(localStorage);
-let currentId = notes[0].id;
+let saved = loadTask(localStorage);
+let draft = { ...saved };
 
-const current = () => notes.find((n) => n.id === currentId);
-
-function renderList() {
-  list.innerHTML = "";
-  for (const n of notes) {
-    const li = document.createElement("li");
-    li.className = n.id === currentId ? "active" : "";
-    li.dataset.id = n.id;
-    const t = document.createElement("div");
-    t.className = "t";
-    t.textContent = titleOf(n.body);
-    const p = document.createElement("div");
-    p.className = "p";
-    p.textContent = n.body.split("\n").slice(1).join(" ") || " ";
-    li.append(t, p);
-    li.addEventListener("click", () => open(n.id));
-    list.append(li);
-  }
+function renderPreview(t) {
+  document.getElementById("p-name").textContent = t.name || "Untitled task";
+  document.getElementById("p-desc").textContent = t.description;
+  document.getElementById("p-trigger").textContent = t.trigger;
 }
 
-function refreshSave() {
-  const dirty = isDirty(current(), editor.value);
+function refresh() {
+  const dirty = isDirty(saved, draft);
   saveBtn.disabled = !dirty;
-  status.textContent = dirty ? "Unsaved changes" : "Saved";
+  status.classList.remove("saved");
+  status.textContent = dirty ? "Unsaved changes" : "No changes";
 }
 
-function open(id) {
-  currentId = id;
-  editor.value = current().body;
-  renderList();
-  refreshSave();
+const fields = [[nameEl, "name"], [descEl, "description"]];
+for (const [el, field] of fields) {
+  el.addEventListener("input", () => {
+    draft = { ...draft, [field]: el.value };
+    renderPreview(draft);
+    refresh();
+  });
 }
-
-// Keep the open note in sync while typing, so the list preview updates live.
-editor.addEventListener("input", () => {
-  notes = updateNote(notes, currentId, editor.value);
-  renderList();
-  refreshSave();
-});
 
 saveBtn.addEventListener("click", () => {
-  notes = updateNote(notes, currentId, editor.value);
-  saveNotes(localStorage, notes);
-  renderList();
-  refreshSave();
+  saved = updateTask(saved, { name: draft.name, description: draft.description });
+  saveTask(localStorage, saved);
+  draft = { ...saved };
+  refresh();
+  status.textContent = "Saved ✓";
+  status.classList.add("saved");
 });
 
-open(currentId);
+nameEl.value = saved.name;
+descEl.value = saved.description;
+document.getElementById("trigger").textContent = saved.trigger;
+renderPreview(saved);
+refresh();

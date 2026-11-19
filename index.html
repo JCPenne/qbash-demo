@@ -3,21 +3,46 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Notes</title>
+    <title>Edit task · qbash (demo copy)</title>
     <link rel="stylesheet" href="src/style.css" />
   </head>
   <body>
     <div class="app">
-      <aside class="sidebar">
-        <div class="brand">Notes</div>
-        <ul id="list" class="list"></ul>
+      <aside class="side">
+        <div class="brand"><span class="logo">q</span>qbash</div>
+        <nav>
+          <div class="it">Build</div>
+          <div class="it on">Tasks</div>
+          <div class="sub">Weekly report</div>
+          <div class="it">MCP Servers</div>
+          <div class="it">Memories</div>
+          <div class="it">Connectors</div>
+          <div class="it">Secrets</div>
+          <div class="it">Models</div>
+        </nav>
+        <div class="foot">Demo copy of one QBash page</div>
       </aside>
-      <main class="editor">
-        <div class="toolbar">
-          <span id="status" class="status">Saved</span>
-          <button id="save" class="save" disabled>Save</button>
+      <main class="page">
+        <div class="back">← Weekly report</div>
+        <div class="head"><h1>Edit task</h1>
+          <div class="actions"><span id="status" class="status">No changes</span><button id="save" class="save" disabled>Save</button></div>
         </div>
-        <textarea id="body" spellcheck="false"></textarea>
+        <div class="cols">
+          <section class="card form">
+            <label for="name">Name</label>
+            <input id="name" autocomplete="off" />
+            <label for="description">Description</label>
+            <textarea id="description" rows="5"></textarea>
+            <label>Trigger</label>
+            <div class="static"><span class="pill">Schedule</span> <span id="trigger"></span></div>
+          </section>
+          <section class="card preview">
+            <div class="label">Preview</div>
+            <div id="p-name" class="p-name"></div>
+            <div id="p-desc" class="p-desc"></div>
+            <div class="p-meta"><span class="pill">Schedule</span> <span id="p-trigger"></span></div>
+          </section>
+        </div>
       </main>
     </div>
     <script type="module" src="src/app.js"></script>
