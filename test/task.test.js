@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { loadTask, saveTask, isDirty, updateTask, SEED } from "../src/task.js";
+import { loadTask, saveTask, isDirty, updateTask, applyEdit, SEED } from "../src/task.js";
 
 function memoryStorage() {
   const data = new Map();
@@ -27,4 +27,10 @@ test("updateTask changes only the given fields", () => {
   assert.equal(t.script, "x");
   assert.equal(t.name, SEED.name);
   assert.equal(t.updatedAt, 5);
+});
+
+test("editing the script makes the task dirty so Save enables", () => {
+  const { saved, draft } = applyEdit(SEED, { ...SEED }, SEED.script + "\n# more");
+  assert.equal(isDirty(saved, draft), true);
+  assert.equal(saved.script, SEED.script);
 });

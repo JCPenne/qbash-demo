@@ -48,3 +48,8 @@ export function isDirty(saved, draft) {
 export function updateTask(task, patch, now = Date.now()) {
   return { ...task, ...patch, updatedAt: now };
 }
+
+// Typing changes only the draft; `saved` stays what was last saved, so the task reads as dirty.
+export function applyEdit(saved, draft, script) {
+  return { saved, draft: updateTask(draft, { script }) };
+}
