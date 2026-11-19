@@ -28,8 +28,10 @@ function showToast(text) {
   showToast.t = setTimeout(() => (toast.hidden = true), 2500);
 }
 
+// Keep the task in sync while typing, so its edited time is current when you go back to the Overview.
 code.addEventListener("input", () => {
-  draft = { ...draft, script: code.value };
+  saved = updateTask(saved, { script: code.value });
+  draft = { ...saved };
   paint();
   refresh();
 });
