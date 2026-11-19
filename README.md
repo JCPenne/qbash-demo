@@ -1,7 +1,8 @@
-# QBash demo page (Edit task)
+# QBash demo pages (task Overview + Edit)
 
-A copy of one QBash page, the Edit task screen, used as the target for a demo ticket bot in a QBash content video.
-It isn't the real QBash app. No build step, no dependencies.
+A copy of two QBash pages, a task's Overview and its Edit page, built from QBash's own markup, stylesheets and logo
+(copied from app.qbash.com). It's the target for a demo ticket bot in a QBash content video, not the real QBash app.
+No build step, no dependencies.
 
 - Run: `npm start`, then open http://localhost:4173
 - Test: `npm test`

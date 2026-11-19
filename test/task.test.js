@@ -13,19 +13,18 @@ test("loads the seed task when storage is empty", () => {
 
 test("a saved task loads back", () => {
   const s = memoryStorage();
-  saveTask(s, { ...SEED, description: "hello" });
-  assert.equal(loadTask(s).description, "hello");
+  saveTask(s, { ...SEED, script: "print(1)" });
+  assert.equal(loadTask(s).script, "print(1)");
 });
 
-test("a changed description or name is dirty", () => {
-  assert.equal(isDirty(SEED, { ...SEED, description: "x" }), true);
-  assert.equal(isDirty(SEED, { ...SEED, name: "x" }), true);
+test("a changed script is dirty", () => {
+  assert.equal(isDirty(SEED, { ...SEED, script: SEED.script + "\n# more" }), true);
   assert.equal(isDirty(SEED, { ...SEED }), false);
 });
 
 test("updateTask changes only the given fields", () => {
-  const t = updateTask(SEED, { description: "new" }, 5);
-  assert.equal(t.description, "new");
+  const t = updateTask(SEED, { script: "x" }, 5);
+  assert.equal(t.script, "x");
   assert.equal(t.name, SEED.name);
   assert.equal(t.updatedAt, 5);
 });

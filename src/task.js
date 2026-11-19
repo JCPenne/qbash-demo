@@ -1,12 +1,30 @@
-// Pure task logic for the demo copy of QBash's Edit task page: no DOM, so it's easy to test.
+// Pure task logic for the demo copy of QBash's task pages: no DOM, so it's easy to test.
 
 export const STORAGE_KEY = "qbash-demo-task";
 
+export const SCRIPT = `"""Weekly report: posts a summary of last week's task runs to #team every Monday."""
+
+
+def run():
+    runs = qbash.integrations.postgres.execute_query(
+        query="SELECT name, status FROM runs WHERE started_at > now() - interval '7 days'",
+        output_format="json_rows",
+    )["result"]
+    failed = [r for r in runs if r["status"] == "failed"]
+    summary = qbash.ai.run_prompt("weekly-summary", {"runs": runs, "failed": failed})
+    qbash.integrations.slack.create_message(channel="#team", markdown_text=summary)
+    return {"runs": len(runs), "failed": len(failed)}
+
+
+qbash.output(run())
+`;
+
 export const SEED = {
-  id: "t1",
+  id: "weekly-report",
   name: "Weekly report",
-  description: "Posts a summary of last week's runs to #team every Monday.",
-  trigger: "Mondays at 9:00",
+  description: "Posts a summary of last week's task runs to #team every Monday.",
+  script: SCRIPT,
+  version: 3,
   updatedAt: 0,
 };
 
@@ -24,7 +42,7 @@ export function saveTask(storage, task) {
 }
 
 export function isDirty(saved, draft) {
-  return saved.name !== draft.name || saved.description !== draft.description;
+  return saved.script !== draft.script;
 }
 
 export function updateTask(task, patch, now = Date.now()) {
