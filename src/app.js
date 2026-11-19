@@ -23,9 +23,11 @@ function refresh() {
 
 const fields = [[nameEl, "name"], [descEl, "description"]];
 for (const [el, field] of fields) {
+  // Keep the task in sync while typing, so the preview card always shows the latest text.
   el.addEventListener("input", () => {
-    draft = { ...draft, [field]: el.value };
-    renderPreview(draft);
+    saved = updateTask(saved, { [field]: el.value });
+    draft = { ...saved };
+    renderPreview(saved);
     refresh();
   });
 }
