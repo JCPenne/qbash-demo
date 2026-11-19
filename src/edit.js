@@ -1,4 +1,4 @@
-import { loadTask, saveTask, isDirty, updateTask } from "./task.js";
+import { loadTask, saveTask, isDirty, updateTask, applyEdit } from "./task.js";
 import { highlight } from "./highlight.js";
 
 const code = document.getElementById("code");
@@ -28,10 +28,9 @@ function showToast(text) {
   showToast.t = setTimeout(() => (toast.hidden = true), 2500);
 }
 
-// Keep the task in sync while typing, so its edited time is current when you go back to the Overview.
+// Typing updates the draft only; Save writes it into the task.
 code.addEventListener("input", () => {
-  saved = updateTask(saved, { script: code.value });
-  draft = { ...saved };
+  ({ saved, draft } = applyEdit(saved, draft, code.value));
   paint();
   refresh();
 });
