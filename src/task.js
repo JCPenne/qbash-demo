@@ -6,7 +6,7 @@ export const SEED = {
   id: "t1",
   name: "Weekly report",
   description: "Posts a summary of last week's runs to #team every Monday.",
-  trigger: "Schedule · Mondays 9:00",
+  trigger: "Mondays at 9:00",
   updatedAt: 0,
 };
 
